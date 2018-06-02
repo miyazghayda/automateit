@@ -64,7 +64,8 @@ class AppController extends Controller
             'unauthorizedRedirect' => $this->referer()
         ]);
 
-        $this->Auth->allow(['display', 'view', 'index']);
+        //$this->Auth->allow(['display', 'login']);
+        $this->Auth->allow(['login']);
 
         /*
          * Enable the following components for recommended CakePHP security settings.
@@ -74,9 +75,16 @@ class AppController extends Controller
         //$this->loadComponent('Csrf');
     }
 
+    public function isAuthorized($user) {
+        return false;
+    }
+
     public function beforeRender(Event $event) {
+        //$this->viewBuilder()->setClassName('AdminLTE.AdminLTE');
         $this->viewBuilder()->setTheme('AdminLTE');
-        //$this->set('theme', Configure::read('Theme'));
+        $this->viewBuilder()->setClassName('AdminLTE.AdminLTE');
+        //$this->viewBuilder()->setClassName('')
+        $this->set('theme', Configure::read('Theme'));
         //$this->viewBuilder()->setTheme('Gentelella');
     }
 }

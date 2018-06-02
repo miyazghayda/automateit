@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a73efd1002a302b19ac8db64630eb241",
+    "content-hash": "b6d42452ca8be19cc5a8388c1733bdbe",
     "packages": [
         {
             "name": "aura/intl",
@@ -51,55 +51,6 @@
                 "localization"
             ],
             "time": "2017-01-20T05:00:11+00:00"
-        },
-        {
-            "name": "backstageel/cakephp-gentelella-theme",
-            "version": "1.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/backstageel/cakephp-gentelella-theme.git",
-                "reference": "5c2c5a75adf659c7e4c7c0d419483a4f45b2462b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/backstageel/cakephp-gentelella-theme/zipball/5c2c5a75adf659c7e4c7c0d419483a4f45b2462b",
-                "reference": "5c2c5a75adf659c7e4c7c0d419483a4f45b2462b",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "~3.0",
-                "friendsofcake/bootstrap-ui": "@stable",
-                "php": ">=5.4.16"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Gentelella\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Elísio Leonardo",
-                    "email": "elisio.leonardo@gmail.com",
-                    "homepage": "https://elisioleonardo.com/",
-                    "role": "Author"
-                }
-            ],
-            "description": "CakePHP 3.x Gentelella Theme.",
-            "homepage": "https://github.com/backstageel/cakephp-gentelella-theme",
-            "keywords": [
-                "cakephp",
-                "plugin",
-                "templates"
-            ],
-            "time": "2017-04-21T14:22:45+00:00"
         },
         {
             "name": "binsoul/net-mqtt",
@@ -709,57 +660,6 @@
                 "event-emitter"
             ],
             "time": "2017-07-17T17:39:19+00:00"
-        },
-        {
-            "name": "friendsofcake/bootstrap-ui",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
-                "reference": "373184478a1d3cd8b272cad60a3db55479dd3dc5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/373184478a1d3cd8b272cad60a3db55479dd3dc5",
-                "reference": "373184478a1d3cd8b272cad60a3db55479dd3dc5",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^3.5"
-            },
-            "require-dev": {
-                "cakephp/chronos": "^1.1",
-                "phpunit/phpunit": "^5.7.14|^6.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "BootstrapUI\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jad Bitar",
-                    "homepage": "http://jadb.io",
-                    "role": "Author"
-                },
-                {
-                    "name": "Others",
-                    "homepage": "https://github.com/friendsofcake/bootstrap-ui/graphs/contributors"
-                }
-            ],
-            "description": "Twitter Bootstrap 3 support for CakePHP 3",
-            "homepage": "http://github.com/friendsofcake/bootstrap-ui",
-            "keywords": [
-                "bootstrap",
-                "cakephp",
-                "twitter"
-            ],
-            "time": "2018-04-16T21:52:50+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1438,6 +1338,51 @@
                 "php mobile detect"
             ],
             "time": "2018-02-26T19:39:55+00:00"
+        },
+        {
+            "name": "nlp-tools/nlp-tools",
+            "version": "v0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/angeloskath/php-nlp-tools.git",
+                "reference": "bbccab0f3ca7277bdf7b292ba67ca644efd0cefe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/angeloskath/php-nlp-tools/zipball/bbccab0f3ca7277bdf7b292ba67ca644efd0cefe",
+                "reference": "bbccab0f3ca7277bdf7b292ba67ca644efd0cefe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "NlpTools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Angelos Katharopoulos",
+                    "email": "angelos@yourse.gr"
+                }
+            ],
+            "description": "NlpTools is a set of php 5.3+ classes for beginner to semi advanced natural language processing work.",
+            "keywords": [
+                "machine learning",
+                "nlp"
+            ],
+            "time": "2016-11-03T15:34:42+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2814,6 +2759,55 @@
             "time": "2017-01-10T22:04:15+00:00"
         },
         {
+            "name": "backstageel/cakephp-gentelella-theme",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/backstageel/cakephp-gentelella-theme.git",
+                "reference": "5c2c5a75adf659c7e4c7c0d419483a4f45b2462b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/backstageel/cakephp-gentelella-theme/zipball/5c2c5a75adf659c7e4c7c0d419483a4f45b2462b",
+                "reference": "5c2c5a75adf659c7e4c7c0d419483a4f45b2462b",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "~3.0",
+                "friendsofcake/bootstrap-ui": "@stable",
+                "php": ">=5.4.16"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Gentelella\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Elísio Leonardo",
+                    "email": "elisio.leonardo@gmail.com",
+                    "homepage": "https://elisioleonardo.com/",
+                    "role": "Author"
+                }
+            ],
+            "description": "CakePHP 3.x Gentelella Theme.",
+            "homepage": "https://github.com/backstageel/cakephp-gentelella-theme",
+            "keywords": [
+                "cakephp",
+                "plugin",
+                "templates"
+            ],
+            "time": "2017-04-21T14:22:45+00:00"
+        },
+        {
             "name": "cakephp/bake",
             "version": "1.8.0",
             "source": {
@@ -3257,6 +3251,57 @@
             ],
             "description": "implementation of xdg base directory specification for php",
             "time": "2014-10-24T07:27:01+00:00"
+        },
+        {
+            "name": "friendsofcake/bootstrap-ui",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
+                "reference": "373184478a1d3cd8b272cad60a3db55479dd3dc5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/373184478a1d3cd8b272cad60a3db55479dd3dc5",
+                "reference": "373184478a1d3cd8b272cad60a3db55479dd3dc5",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.5"
+            },
+            "require-dev": {
+                "cakephp/chronos": "^1.1",
+                "phpunit/phpunit": "^5.7.14|^6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "BootstrapUI\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jad Bitar",
+                    "homepage": "http://jadb.io",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/friendsofcake/bootstrap-ui/graphs/contributors"
+                }
+            ],
+            "description": "Twitter Bootstrap 3 support for CakePHP 3",
+            "homepage": "http://github.com/friendsofcake/bootstrap-ui",
+            "keywords": [
+                "bootstrap",
+                "cakephp",
+                "twitter"
+            ],
+            "time": "2018-04-16T21:52:50+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

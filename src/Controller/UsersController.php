@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -13,6 +14,11 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 
+    public function initialize() {
+        parent::initialize();
+        $this->Auth->allow(['logout', 'add']);
+    }
+
     /**
      * Index method
      *
@@ -20,20 +26,37 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
+        //$users = $this->paginate($this->Users);
 
-        $this->set(compact('users'));
+        //$this->set(compact('users'));
+        $user = $this->Auth->user();
+        $this->set('user', $user);
     }
 
     public function login() {
+        $this->viewBuilder()->setLayout('login');
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
+
+                // Update lastlog
+                $userId = $this->Auth->user('id');
+                $query = $this->Users->query();
+                $query->update()
+                      ->set(['lastlog' => Time::now()->i18nFormat('yyyy-MM-dd HH:mm:ss')])
+                      ->where(['id' => $this->Auth->user('id')])
+                      ->execute();
+
+                return $this->redirect($this->Auth->redirectUrl(['controller' => 'users', 'action' => 'index']));
             }
-            $this->Flash->error('Your username or password is incorrect');
+            $this->Flash->error('Username dan Password Keliru.');
         }
+    }
+
+    public function logout() {
+        $this->Flash->success('Anda telah logout');
+        return $this->redirect($this->Auth->logout());
     }
 
     /**
@@ -59,15 +82,23 @@ class UsersController extends AppController
      */
     public function add()
     {
+        $this->viewBuilder()->setLayout('register');
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $time = Time::now();
+            $newData = $this->request->getData();
+            $newData['groupid'] = 3;
+            $newData['statusid'] = 2;
+            $newData['lastlog'] = Time::now()->i18nFormat('yyyy-MM-dd HH:mm:ss');
+            $newData['active'] = true;
+            $user = $this->Users->patchEntity($user, $newData);
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__('Pendaftaran berhasil, silahkan Login'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('Ups, terjadi kesalahan. Silahkan mencoba lagi.'));
         }
         $this->set(compact('user'));
     }

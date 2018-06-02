@@ -19,6 +19,9 @@ use Cake\ORM\Entity;
  * @property int $followings
  * @property int $posts
  * @property bool $closed
+ * @property \Cake\I18n\Date $started
+ * @property \Cake\I18n\Date $ended
+ * @property bool $paid
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property bool $active
@@ -53,6 +56,9 @@ class Account extends Entity
         'followings' => true,
         'posts' => true,
         'closed' => true,
+        'started' => true,
+        'ended' => true,
+        'paid' => true,
         'created' => true,
         'modified' => true,
         'active' => true,

@@ -123,6 +123,18 @@ class AccountsTable extends Table
             ->notEmpty('closed');
 
         $validator
+            ->date('started')
+            ->allowEmpty('started');
+
+        $validator
+            ->date('ended')
+            ->allowEmpty('ended');
+
+        $validator
+            ->boolean('paid')
+            ->allowEmpty('paid');
+
+        $validator
             ->boolean('active')
             ->requirePresence('active', 'create')
             ->notEmpty('active');

@@ -13,6 +13,21 @@ use App\Controller\AppController;
 class AccountsController extends AppController
 {
 
+    public function isAuthorized($user) {
+        $action = $this->request->getParam('action');
+
+        // All actions require an id
+        $id = $this->request->getParam('pass.0');
+        if (!$id) {
+            return false;
+        }
+
+        // Check that the account belongs to the current user.
+        $account = $this->Accounts->findById($id)->first();
+
+        return $account->user_id === $user['id'];
+    }
+
     /**
      * Index method
      *
