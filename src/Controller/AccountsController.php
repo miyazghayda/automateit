@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Accounts Controller
@@ -35,12 +36,15 @@ class AccountsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users', 'Proxies']
-        ];
-        $accounts = $this->paginate($this->Accounts);
+        $user = $this->Auth->user();
 
-        $this->set(compact('accounts'));
+        $accounts = $this->Accounts->find()
+                         ->where(['user_id' => $user['id'], 'active' => 1])
+                         ->all();
+
+        $user = $this->Auth->user();
+
+        $this->set(compact('accounts', 'user'));
     }
 
     /**
@@ -68,17 +72,76 @@ class AccountsController extends AppController
     {
         $account = $this->Accounts->newEntity();
         if ($this->request->is('post')) {
-            $account = $this->Accounts->patchEntity($account, $this->request->getData());
+            $data = [
+                'user_id' => $this->Auth->user('id'),
+                'proxy_id' => 1,
+                'pk' => 0,
+                'profpicurl' => null,
+                'username' => $this->request->getData()['username'],
+                'password' => $this->request->getData()['password'],
+                'fullname' => null,
+                'description' => null,
+                'followers' => 0,
+                'followings' => 0,
+                'posts' => 0,
+                'started' => Time::now()->i18nFormat('yyyy-MM-dd'),
+                'ended' => Time::now()->i18nFormat('yyyy-MM-dd'),
+                'paid' => 0,
+                'closed' => 0,
+                'statusid' => 1,
+                'note' => 'Belum diuji login',
+                'active' => 1
+            ];
+            $account = $this->Accounts->patchEntity($account, $data);
             if ($this->Accounts->save($account)) {
-                $this->Flash->success(__('The account has been saved.'));
+                $this->Flash->success(__('Akun berhasil ditambahkan, sistem akan menguji apakah username dan password dapat digunakan.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The account could not be saved. Please, try again.'));
         }
-        $users = $this->Accounts->Users->find('list', ['limit' => 200]);
-        $proxies = $this->Accounts->Proxies->find('list', ['limit' => 200]);
-        $this->set(compact('account', 'users', 'proxies'));
+        //$users = $this->Accounts->Users->find('list', ['limit' => 200]);
+        //$proxies = $this->Accounts->Proxies->find('list', ['limit' => 200]);
+        $user = $this->Auth->user();
+        $this->set(compact('account', 'user'));
+    }
+
+    private function loginIg($username = '', $password = '') {
+        $ret = false;
+        $message = 'Gagal Login pada Akun IG' . $username;
+        if (!empty($username) && !empty($password)) {
+            Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+            $ig = new Instagram(false, false);
+
+            // Login
+            try {
+                $ig->login($username, $password);
+            } catch (Exception $e) {
+                $message = $message . ' ' . $e->getMessage();
+                return [$ret, $message];
+            }
+
+            // Get Profile Data
+            try {
+                $data = $ig->people->getInfoByName($username, 'newsfeed');
+                $ret = true;
+                $message = [
+                    'pk' => $data->getUser()->getPk(),
+                    'sourceid' => $data->getUser()->getPk(),
+                    'username' => $username,
+                    'fullname' => $data->getUser()->getFullName(),
+                    'password' => $password,
+                    'description' => $data->getUser()->getBiography(),
+                    'followers' => $data->getUser()->getFollowerCount(),
+                    'followings' => $data->getUser()->getFollowingCount(),
+                    'posts' => $data->getUser()->getMediaCount(),
+                    'closed' => $data->getUser()->getIsPrivate()
+                ];
+            } catch (Exception $e) {
+                $message = $message . ' ' . $e->getMessage();
+            }
+        }
+        return [$ret, $message];
     }
 
     /**

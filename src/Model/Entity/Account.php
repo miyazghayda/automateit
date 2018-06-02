@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  * @property int $user_id
  * @property int $proxy_id
  * @property int $pk
- * @property string $sourceid
+ * @property string $profpicurl
  * @property string $username
  * @property string $fullname
  * @property string $password
@@ -19,6 +19,8 @@ use Cake\ORM\Entity;
  * @property int $followings
  * @property int $posts
  * @property bool $closed
+ * @property int $statusid
+ * @property string $note
  * @property \Cake\I18n\Date $started
  * @property \Cake\I18n\Date $ended
  * @property bool $paid
@@ -47,7 +49,7 @@ class Account extends Entity
         'user_id' => true,
         'proxy_id' => true,
         'pk' => true,
-        'sourceid' => true,
+        'profpicurl' => true,
         'username' => true,
         'fullname' => true,
         'password' => true,
@@ -56,6 +58,8 @@ class Account extends Entity
         'followings' => true,
         'posts' => true,
         'closed' => true,
+        'testlogin' => true,
+        'note' => true,
         'started' => true,
         'ended' => true,
         'paid' => true,

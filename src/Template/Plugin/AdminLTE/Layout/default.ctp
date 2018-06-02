@@ -12,6 +12,8 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <?php echo $this->Html->css('AdminLTE./bootstrap/css/bootstrap.min'); ?>
+    <!-- DataTables -->
+    <?php echo $this->Html->css('AdminLTE./plugins/datatables/jquery.dataTables.min'); ?>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -32,6 +34,20 @@
 <![endif]-->
 </head>
 <body class="hold-transition skin-<?php echo Configure::read('Theme.skin'); ?> sidebar-mini">
+
+<!-- jQuery 2.2.3 -->
+<?php echo $this->Html->script('AdminLTE./plugins/jQuery/jquery-2.2.3.min'); ?>
+<!-- Bootstrap 3.3.5 -->
+<?php echo $this->Html->script('AdminLTE./bootstrap/js/bootstrap.min'); ?>
+<!-- Moment 2.22.2 -->
+<?php echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'); ?>
+<?php echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/id.js'); ?>
+<!-- validator 0.11.9 -->
+<?php echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js'); ?>
+<!-- validator 0.11.9 -->
+<?php echo $this->Html->script('AdminLTE./plugins/datatables/jquery.dataTables.min.js'); ?>
+<?php echo $this->Html->script('AdminLTE./plugins/datatables/dataTables.bootstrap.min.js'); ?>
+
     <!-- Site wrapper -->
     <div class="wrapper">
         <header class="main-header">
@@ -73,13 +89,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
-<?php echo $this->Html->script('AdminLTE./plugins/jQuery/jquery-2.2.3.min'); ?>
-<!-- Bootstrap 3.3.5 -->
-<?php echo $this->Html->script('AdminLTE./bootstrap/js/bootstrap.min'); ?>
-<!-- Moment 2.22.2 -->
-<?php echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'); ?>
-<?php echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/id.js'); ?>
 <!-- SlimScroll -->
 <?php echo $this->Html->script('AdminLTE./plugins/slimScroll/jquery.slimscroll.min'); ?>
 <!-- FastClick -->

@@ -76,10 +76,9 @@ class AccountsTable extends Table
             ->notEmpty('pk');
 
         $validator
-            ->scalar('sourceid')
-            ->maxLength('sourceid', 255)
-            ->requirePresence('sourceid', 'create')
-            ->notEmpty('sourceid');
+            ->scalar('profpicurl')
+            ->maxLength('profpicurl', 255)
+            ->allowEmpty('profpicurl');
 
         $validator
             ->scalar('username')
@@ -121,6 +120,14 @@ class AccountsTable extends Table
             ->boolean('closed')
             ->requirePresence('closed', 'create')
             ->notEmpty('closed');
+
+        $validator
+            ->integer('statusid')
+            ->allowEmpty('statusid');
+
+        $validator
+            ->scalar('note')
+            ->allowEmpty('note');
 
         $validator
             ->date('started')
