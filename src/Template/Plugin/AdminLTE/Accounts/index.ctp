@@ -31,7 +31,7 @@
                                 <tbody>
                                     <?php foreach ($accounts as $account) { ?>
                                         <tr>
-                                            <td><?php echo $account['username']; ?></td>
+                                            <td><?php echo $this->Html->link($account['username'], ['controller' => 'Accounts', 'action' => 'view', $account['id']]); ?></td>
                                             <td><?php echo $account['fullname']; ?></td>
                                             <td><?php echo $this->Html->link('https://instagram.com/' . $account['username'], 'https://instagram.com/' . $account['username'], ['target' => '_blank']); ?></td>
                                             <td><?php echo $account['note']; ?></td>

@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * @property int $account_id
  * @property int $maxlikeperday
  * @property int $maxfollowperday
+ * @property int $maxpostperday
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property bool $active
@@ -32,6 +33,7 @@ class Preference extends Entity
         'account_id' => true,
         'maxlikeperday' => true,
         'maxfollowperday' => true,
+        'maxpostperday' => true,
         'created' => true,
         'modified' => true,
         'active' => true,

@@ -13,6 +13,12 @@ use Cake\I18n\Time;
  */
 class AccountsController extends AppController
 {
+    public $user;
+
+    public function initialize() {
+        parent::initialize();
+        $this->user = $this->Auth->user();
+    }
 
     public function isAuthorized($user) {
         $action = $this->request->getParam('action');
@@ -56,10 +62,15 @@ class AccountsController extends AppController
      */
     public function view($id = null)
     {
+        if (!$this->isAuthorized($this->user)) {
+            $this->redirect('index');
+        }
+
         $account = $this->Accounts->get($id, [
-            'contain' => ['Users', 'Proxies', 'Cargos', 'Preferences']
+            'contain' => ['Preferences']
         ]);
 
+        $this->set('user', $this->user);
         $this->set('account', $account);
     }
 
@@ -94,14 +105,25 @@ class AccountsController extends AppController
             ];
             $account = $this->Accounts->patchEntity($account, $data);
             if ($this->Accounts->save($account)) {
-                $this->Flash->success(__('Akun berhasil ditambahkan, sistem akan menguji apakah username dan password dapat digunakan.'));
+                // Add Table preferences row related to this account
+                $preference = $this->Accounts->Preferences->newEntity();
 
-                return $this->redirect(['action' => 'index']);
+                $dataPreference = [
+                    'account_id' => $account->id,
+                    'maxlikeperday' => 1000,
+                    'maxfollowperday' => 1000,
+                    'maxpostperday' => 1,
+                    'active' => true
+                ];
+                $preference = $this->Accounts->Preferences->patchEntity($preference, $dataPreference);
+                if ($this->Accounts->Preferences->save($preference)) {
+                    $this->Flash->success(__('Akun berhasil ditambahkan, sistem akan menguji apakah username dan password dapat digunakan.'));
+                    return $this->redirect(['action' => 'index']);
+                }
             }
-            $this->Flash->error(__('The account could not be saved. Please, try again.'));
+            $this->Flash->error(__('Ups, terjadi kesalahan. Silahkan mengulangi.'));
         }
-        //$users = $this->Accounts->Users->find('list', ['limit' => 200]);
-        //$proxies = $this->Accounts->Proxies->find('list', ['limit' => 200]);
+
         $user = $this->Auth->user();
         $this->set(compact('account', 'user'));
     }

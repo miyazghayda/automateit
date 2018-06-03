@@ -69,6 +69,11 @@ class PreferencesTable extends Table
             ->notEmpty('maxfollowperday');
 
         $validator
+            ->integer('maxpostperday')
+            ->requirePresence('maxpostperday', 'create')
+            ->notEmpty('maxpostperday');
+
+        $validator
             ->boolean('active')
             ->requirePresence('active', 'create')
             ->notEmpty('active');

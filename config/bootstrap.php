@@ -220,10 +220,10 @@ if (Configure::read('debug')) {
 }
 
 Configure::write('Theme', [
-    'title' => 'AutomateIt',
+    'title' => 'UmbulEnggal',
     'logo' => [
-        'mini' => '<b>A</>I',
-        'large' => '<b>Automate</b>It'
+        'mini' => '<b>U</>E',
+        'large' => '<b>Umbul</b>Enggal'
     ],
     'login' => [
         'show_remember' => true,

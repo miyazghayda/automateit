@@ -14,8 +14,6 @@
                     <?php echo $this->Html->link('Tambah', ['controller' => 'Accounts', 'action' => 'add']); ?>
                 </div><!--/.box-header -->
                 <div class="box-body">
-                    <div class="form-inline dt-bootstrap">
-                    </div><!--/.form-inline -->
                 </div><!--/.box-body -->
             </div><!--/.box -->
         </div><!--/.col-xs-12 -->
