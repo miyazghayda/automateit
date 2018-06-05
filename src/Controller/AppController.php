@@ -80,11 +80,8 @@ class AppController extends Controller
     }
 
     public function beforeRender(Event $event) {
-        //$this->viewBuilder()->setClassName('AdminLTE.AdminLTE');
         $this->viewBuilder()->setTheme('AdminLTE');
         $this->viewBuilder()->setClassName('AdminLTE.AdminLTE');
-        //$this->viewBuilder()->setClassName('')
         $this->set('theme', Configure::read('Theme'));
-        //$this->viewBuilder()->setTheme('Gentelella');
     }
 }

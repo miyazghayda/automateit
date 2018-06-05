@@ -43,6 +43,11 @@
                                         <li><a href="#">Maksimum Post per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxpostperday']; ?></span></a></li>
                                         <li><a href="#">Maksimum Like/Comment per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxlikeperday']; ?></span></a></li>
                                         <li><a href="#">Maksimum Follow per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxfollowperday']; ?></span></a></li>
+                                        <li>
+                                            <a href="/accounts/edit/<?php echo $account['id']; ?>" class="pull-right">
+                                                <i class="fa fa-pencil"> </i><span>Ubah</span>
+                                            </a>
+                                        </li>
                                     </ul><!--/.nav -->
                                 </div><!--/.box-footer -->
                             </div><!--/.box-widget -->

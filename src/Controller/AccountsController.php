@@ -110,8 +110,8 @@ class AccountsController extends AppController
 
                 $dataPreference = [
                     'account_id' => $account->id,
-                    'maxlikeperday' => 1000,
-                    'maxfollowperday' => 1000,
+                    'maxlikeperday' => 500,
+                    'maxfollowperday' => 300,
                     'maxpostperday' => 1,
                     'active' => true
                 ];
@@ -128,44 +128,6 @@ class AccountsController extends AppController
         $this->set(compact('account', 'user'));
     }
 
-    private function loginIg($username = '', $password = '') {
-        $ret = false;
-        $message = 'Gagal Login pada Akun IG' . $username;
-        if (!empty($username) && !empty($password)) {
-            Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
-            $ig = new Instagram(false, false);
-
-            // Login
-            try {
-                $ig->login($username, $password);
-            } catch (Exception $e) {
-                $message = $message . ' ' . $e->getMessage();
-                return [$ret, $message];
-            }
-
-            // Get Profile Data
-            try {
-                $data = $ig->people->getInfoByName($username, 'newsfeed');
-                $ret = true;
-                $message = [
-                    'pk' => $data->getUser()->getPk(),
-                    'sourceid' => $data->getUser()->getPk(),
-                    'username' => $username,
-                    'fullname' => $data->getUser()->getFullName(),
-                    'password' => $password,
-                    'description' => $data->getUser()->getBiography(),
-                    'followers' => $data->getUser()->getFollowerCount(),
-                    'followings' => $data->getUser()->getFollowingCount(),
-                    'posts' => $data->getUser()->getMediaCount(),
-                    'closed' => $data->getUser()->getIsPrivate()
-                ];
-            } catch (Exception $e) {
-                $message = $message . ' ' . $e->getMessage();
-            }
-        }
-        return [$ret, $message];
-    }
-
     /**
      * Edit method
      *
@@ -175,21 +137,40 @@ class AccountsController extends AppController
      */
     public function edit($id = null)
     {
-        $account = $this->Accounts->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $account = $this->Accounts->patchEntity($account, $this->request->getData());
-            if ($this->Accounts->save($account)) {
-                $this->Flash->success(__('The account has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The account could not be saved. Please, try again.'));
+        if (!$this->isAuthorized($this->user)) {
+            $this->redirect('index');
         }
-        $users = $this->Accounts->Users->find('list', ['limit' => 200]);
-        $proxies = $this->Accounts->Proxies->find('list', ['limit' => 200]);
-        $this->set(compact('account', 'users', 'proxies'));
+
+        $account = $this->Accounts->get($id, [
+            'contain' => ['Preferences']
+        ]);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->getData();
+
+            // Update preferences table
+            $preference = $this->Accounts->Preferences->query();
+            $preference->update()
+                       ->set(['maxlikeperday' => $data['maxlikeperday'], 'maxfollowperday' => $data['maxfollowperday']])
+                       ->where(['account_id' => $account['id'], 'active' => true])
+                       ->execute();
+
+            $message = 'Setup Akun berhasil diubah.';
+            // Update accounts table
+            if ($account['password'] != $data['password']) {
+                $data['statusid'] = 1;
+                $account = $this->Accounts->patchEntity($account, $data);
+                if (!$this->Accounts->save($account)) {
+                    $message = 'Ups! Gagal mengubah Setup Akun, silahkan ulangi.';
+                }
+            }
+
+            $this->Flash->success(__($message));
+
+            return $this->redirect(['action' => 'index']);
+        }
+        $this->set('user', $this->user);
+        $this->set(compact('account'));
     }
 
     /**
@@ -201,14 +182,26 @@ class AccountsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $account = $this->Accounts->get($id);
-        if ($this->Accounts->delete($account)) {
-            $this->Flash->success(__('The account has been deleted.'));
-        } else {
-            $this->Flash->error(__('The account could not be deleted. Please, try again.'));
+        if (!$this->isAuthorized($this->user)) {
+            $this->redirect('index');
         }
 
-        return $this->redirect(['action' => 'index']);
+        $account = $this->Accounts->get($id, [
+            'contain' => ['Preferences']
+        ]);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = ['active' => false];
+            $account = $this->Accounts->patchEntity($account, $data);
+            if ($this->Accounts->save($account)) {
+                $this->Flash->success(__('Berhasil menghapus akun.'));
+            } else {
+                $this->Flash->success(__('Ups! Gagal menghapus akun, silahkan mengulangi.'));
+            }
+            return $this->redirect(['action' => 'index']);
+        }
+
+        $this->set('user', $this->user);
+        $this->set(compact('account'));
     }
 }

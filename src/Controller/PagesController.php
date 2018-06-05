@@ -28,6 +28,12 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
+    public $user;
+
+    public function initialize() {
+        parent::initialize();
+        $this->user = $this->Auth->user();
+    }
 
     /**
      * Displays a view
@@ -65,5 +71,9 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+    }
+
+    public function faq() {
+        $this->set('user', $this->Auth->user());
     }
 }
