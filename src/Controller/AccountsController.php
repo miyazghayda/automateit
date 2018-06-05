@@ -159,6 +159,8 @@ class AccountsController extends AppController
             // Update accounts table
             if ($account['password'] != $data['password']) {
                 $data['statusid'] = 1;
+                $data['note'] = 'Belum diuji login';
+
                 $account = $this->Accounts->patchEntity($account, $data);
                 if (!$this->Accounts->save($account)) {
                     $message = 'Ups! Gagal mengubah Setup Akun, silahkan ulangi.';

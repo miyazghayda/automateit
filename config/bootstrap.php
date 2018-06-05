@@ -210,6 +210,7 @@ Type::build('timestamp')
  */
 //Plugin::load('Gentelella', ['bootstrap' => true, 'routes' => true]);
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
+Plugin::load('CakephpJqueryFileUpload');
 
 /*
  * Only try to load DebugKit in development mode

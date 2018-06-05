@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6d42452ca8be19cc5a8388c1733bdbe",
+    "content-hash": "1fe1da4fa229304f4cc168ef208e5cff",
     "packages": [
         {
             "name": "aura/intl",
@@ -159,6 +159,56 @@
                 "net"
             ],
             "time": "2017-08-20T08:06:53+00:00"
+        },
+        {
+            "name": "blueimp/jquery-file-upload",
+            "version": "v9.21.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vkhramtsov/jQuery-File-Upload.git",
+                "reference": "8439fc8b3cb0cb69019452eedd20f56ad7722b5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vkhramtsov/jQuery-File-Upload/zipball/8439fc8b3cb0cb69019452eedd20f56ad7722b5f",
+                "reference": "8439fc8b3cb0cb69019452eedd20f56ad7722b5f",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Tschan",
+                    "homepage": "https://blueimp.net"
+                }
+            ],
+            "description": "File Upload widget for jQuery.",
+            "homepage": "https://github.com/blueimp/jQuery-File-Upload",
+            "keywords": [
+                "bootstrap",
+                "chunk",
+                "cross-domain",
+                "cross-site",
+                "drag",
+                "drop",
+                "file",
+                "gae",
+                "go",
+                "jquery",
+                "multiple",
+                "php",
+                "preview",
+                "progress",
+                "python",
+                "resume",
+                "selection",
+                "upload",
+                "widget"
+            ],
+            "time": "2018-02-20T06:20:24+00:00"
         },
         {
             "name": "cakephp/cakephp",
@@ -841,6 +891,47 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "hashmode/cakephp-jquery-file-upload",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hashmode/cakephp-jquery-file-upload.git",
+                "reference": "56c828c10679d2c94911eb8e57b1418dfa20bd08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hashmode/cakephp-jquery-file-upload/zipball/56c828c10679d2c94911eb8e57b1418dfa20bd08",
+                "reference": "56c828c10679d2c94911eb8e57b1418dfa20bd08",
+                "shasum": ""
+            },
+            "require": {
+                "blueimp/jquery-file-upload": "~9.0",
+                "cakephp/cakephp": "~3.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakephpJqueryFileUpload\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "hashmode"
+                }
+            ],
+            "description": "Cakephp 3.x Jquery File Upload",
+            "keywords": [
+                "cakephp",
+                "file-upload",
+                "jquery"
+            ],
+            "time": "2016-08-02T08:36:45+00:00"
         },
         {
             "name": "illuminate/contracts",
@@ -2759,55 +2850,6 @@
             "time": "2017-01-10T22:04:15+00:00"
         },
         {
-            "name": "backstageel/cakephp-gentelella-theme",
-            "version": "1.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/backstageel/cakephp-gentelella-theme.git",
-                "reference": "5c2c5a75adf659c7e4c7c0d419483a4f45b2462b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/backstageel/cakephp-gentelella-theme/zipball/5c2c5a75adf659c7e4c7c0d419483a4f45b2462b",
-                "reference": "5c2c5a75adf659c7e4c7c0d419483a4f45b2462b",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "~3.0",
-                "friendsofcake/bootstrap-ui": "@stable",
-                "php": ">=5.4.16"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Gentelella\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Elísio Leonardo",
-                    "email": "elisio.leonardo@gmail.com",
-                    "homepage": "https://elisioleonardo.com/",
-                    "role": "Author"
-                }
-            ],
-            "description": "CakePHP 3.x Gentelella Theme.",
-            "homepage": "https://github.com/backstageel/cakephp-gentelella-theme",
-            "keywords": [
-                "cakephp",
-                "plugin",
-                "templates"
-            ],
-            "time": "2017-04-21T14:22:45+00:00"
-        },
-        {
             "name": "cakephp/bake",
             "version": "1.8.0",
             "source": {
@@ -3251,57 +3293,6 @@
             ],
             "description": "implementation of xdg base directory specification for php",
             "time": "2014-10-24T07:27:01+00:00"
-        },
-        {
-            "name": "friendsofcake/bootstrap-ui",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
-                "reference": "373184478a1d3cd8b272cad60a3db55479dd3dc5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/373184478a1d3cd8b272cad60a3db55479dd3dc5",
-                "reference": "373184478a1d3cd8b272cad60a3db55479dd3dc5",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^3.5"
-            },
-            "require-dev": {
-                "cakephp/chronos": "^1.1",
-                "phpunit/phpunit": "^5.7.14|^6.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "BootstrapUI\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jad Bitar",
-                    "homepage": "http://jadb.io",
-                    "role": "Author"
-                },
-                {
-                    "name": "Others",
-                    "homepage": "https://github.com/friendsofcake/bootstrap-ui/graphs/contributors"
-                }
-            ],
-            "description": "Twitter Bootstrap 3 support for CakePHP 3",
-            "homepage": "http://github.com/friendsofcake/bootstrap-ui",
-            "keywords": [
-                "bootstrap",
-                "cakephp",
-                "twitter"
-            ],
-            "time": "2018-04-16T21:52:50+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

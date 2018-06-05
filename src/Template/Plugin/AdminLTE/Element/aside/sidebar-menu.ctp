@@ -24,10 +24,8 @@ if (file_exists($file)) {
             </span>
         </a>
         <ul class="treeview-menu">
-            <li><a href="<?php echo $this->Url->build('/pages/charts/chartjs'); ?>"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-            <li><a href="<?php echo $this->Url->build('/pages/charts/morris'); ?>"><i class="fa fa-circle-o"></i> Morris</a></li>
-            <li><a href="<?php echo $this->Url->build('/pages/charts/flot'); ?>"><i class="fa fa-circle-o"></i> Flot</a></li>
-            <li><a href="<?php echo $this->Url->build('/pages/charts/inline'); ?>"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+            <li><a href="<?php echo $this->Url->build('/cargos/queue'); ?>"><i class="fa fa-hourglass-2"></i> Konten akan diPost</a></li>
+            <li><a href="<?php echo $this->Url->build('/cargos/index'); ?>"><i class="fa fa-image"></i> Konten telah diPost</a></li>
         </ul>
     </li>
     <li class="treeview">

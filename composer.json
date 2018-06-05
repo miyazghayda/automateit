@@ -6,9 +6,11 @@
     "license": "MIT",
     "require": {
         "php": ">=5.6",
+        "blueimp/jquery-file-upload": "^9.21",
         "cakephp/cakephp": "3.6.*",
         "cakephp/migrations": "^1.8.0",
         "cakephp/plugin-installer": "^1.0",
+        "hashmode/cakephp-jquery-file-upload": "~1.0",
         "irazasyed/telegram-bot-sdk": "^2.0",
         "josegonzalez/dotenv": "3.*",
         "maiconpinto/cakephp-adminlte-theme": "^1.0",
@@ -30,7 +32,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+	"classmap": [
+		"vendor/blueimp/jquery-file-upload/server/php"
+	]
     },
     "autoload-dev": {
         "psr-4": {
@@ -42,6 +47,7 @@
         "post-install-cmd": "App\\Console\\Installer::postInstall",
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
         "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
+        "post-update-cmd": "CakephpJqueryFileUpload\\Console\\Installer::postUpdate",
         "check": [
             "@test",
             "@cs-check"
