@@ -23,4 +23,8 @@ class DocumentationController extends AppController
     public function faq() {
         $this->set('user', $this->user);
     }
+
+    public function wellcome() {
+        $this->set('user', $this->user);
+    }
 }

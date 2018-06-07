@@ -68,8 +68,7 @@ class CargosTable extends Table
 
         $validator
             ->dateTime('schedule')
-            ->requirePresence('schedule', 'create')
-            ->notEmpty('schedule');
+            ->allowEmpty('schedule');
 
         $validator
             ->boolean('uploaded')
@@ -78,8 +77,7 @@ class CargosTable extends Table
 
         $validator
             ->scalar('caption')
-            ->requirePresence('caption', 'create')
-            ->notEmpty('caption');
+            ->allowEmpty('caption');
 
         $validator
             ->boolean('active')

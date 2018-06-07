@@ -11,6 +11,15 @@ use Cake\ORM\Entity;
  * @property int $maxlikeperday
  * @property int $maxfollowperday
  * @property int $maxpostperday
+ * @property bool $followidolfollower
+ * @property bool $followbyhashtag
+ * @property bool $followbylocation
+ * @property bool $likefeed
+ * @property bool $likebyhashtag
+ * @property bool $likebylocation
+ * @property bool $commentfeed
+ * @property bool $commentbyhashtag
+ * @property bool $commentbylocation
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property bool $active
@@ -37,6 +46,15 @@ class Preference extends Entity
         'created' => true,
         'modified' => true,
         'active' => true,
+        'followidolfollower' => true,
+        'followbyhashtag' => true,
+        'followbylocation' => true,
+        'likefeed' => true,
+        'likebyhashtag' => true,
+        'likebylocation' => true,
+        'commentfeed' => true,
+        'commentbyhashtag' => true,
+        'commentbylocation' => true,
         'account' => true
     ];
 }

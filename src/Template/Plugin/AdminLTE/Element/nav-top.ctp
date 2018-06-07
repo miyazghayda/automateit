@@ -30,7 +30,7 @@ if (file_exists($file)) {
 
             <p>
                 <?php echo $user['fullname']; ?>
-                <small id="lastLogin"><?php echo $this->Time->format($user['lastlog'], 'yyyy-MM-dd'); ?></small>
+                <small id="lastLogin"><?php echo $this->Time->format($user['created'], 'yyyy-MM-dd'); ?></small>
             </p>
           </li>
           <!-- Menu Body -->

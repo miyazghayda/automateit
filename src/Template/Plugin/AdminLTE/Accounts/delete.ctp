@@ -1,5 +1,5 @@
 <section class="content-header">
-    <h1>Tambah Akun Instagram</h1>
+    <h1>Hapus Akun Instagram</h1>
     <ol class="breadcrumb">
         <li>
             Akun
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header with-border">
                     <?php echo $this->Html->link('Daftar Akun', ['controller' => 'Accounts', 'action' => 'index']); ?>
                 </div><!--/.box-header -->
                 <div class="box-body">

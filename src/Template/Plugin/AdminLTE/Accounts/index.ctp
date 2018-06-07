@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header with-border">
                     <?php echo $this->Html->link('Tambah', ['controller' => 'Accounts', 'action' => 'add']); ?>
                 </div><!--/.box-header -->
                 <div class="box-body">

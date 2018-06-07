@@ -1,3 +1,8 @@
+<style>
+label {
+    font-weight: 400;
+}
+</style>
 <section class="content-header">
     <h1>Ubah Akun Instagram</h1>
     <ol class="breadcrumb">
@@ -13,7 +18,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header with-border">
                     <?php echo $this->Html->link('Daftar', ['controller' => 'Accounts', 'action' => 'index']); ?>
                 </div><!--/.box-header -->
                 <div class="box-body">
@@ -34,13 +39,13 @@
                         </div><!--/. form-group -->
 
                         <div class="form-group">
-                            <label>Maksimum Follow per Hari, <a href="/documentation/faq#maxfollowperday" target="_blank">saran kami</a></label>
+                            <label>Maksimum Follow per Hari, <a href="/documentation/faq#maxfollowperday" target="_blank">saran kami</a>. Gunakan <strong>0</strong> jika ingin menonaktifkan fitur ini.</label>
                             <?php echo $this->Form->text('maxfollowperday', ['placeholder' => 'Maksimum Follow per Hari', 'value' => $account['preferences'][0]['maxfollowperday'], 'class' => 'form-control', 'id' => 'maxfollowperday', 'required' => 'true', 'data-required-error' => 'Harus diisi']); ?>
                             <span class="help-block with-errors"></span>
                         </div><!--/. form-group -->
 
                         <div class="form-group">
-                            <label>Maksimum Like/Comment per Hari, <a href="/documentation/faq#maxlikeperday" target="_blank">saran kami</a></label>
+                            <label>Maksimum Like/Comment per Hari, <a href="/documentation/faq#maxlikeperday" target="_blank">saran kami</a>. Gunakan <strong>0</strong> jika ingin menonaktifkan fitur ini.</label>
                             <?php echo $this->Form->text('maxlikeperday', ['placeholder' => 'Maksimum Like/Comment per Hari', 'value' => $account['preferences'][0]['maxlikeperday'], 'class' => 'form-control', 'id' => 'maxlikeperday', 'required' => 'true', 'data-required-error' => 'Harus diisi']); ?>
                             <span class="help-block with-errors"></span>
                         </div><!--/. form-group -->

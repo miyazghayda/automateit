@@ -74,6 +74,42 @@ class PreferencesTable extends Table
             ->notEmpty('maxpostperday');
 
         $validator
+            ->boolean('followidolfollower')
+            ->allowEmpty('followidolfollower');
+
+        $validator
+            ->boolean('followbyhashtag')
+            ->allowEmpty('followbyhashtag');
+
+        $validator
+            ->boolean('followbylocation')
+            ->allowEmpty('followbylocation');
+
+        $validator
+            ->boolean('likefeed')
+            ->allowEmpty('likefeed');
+
+        $validator
+            ->boolean('likebyhashtag')
+            ->allowEmpty('likebyhashtag');
+
+        $validator
+            ->boolean('likebylocation')
+            ->allowEmpty('likebylocation');
+
+        $validator
+            ->boolean('commentfeed')
+            ->allowEmpty('commentfeed');
+
+        $validator
+            ->boolean('commentbyhashtag')
+            ->allowEmpty('commentbyhashtag');
+
+        $validator
+            ->boolean('commentbylocation')
+            ->allowEmpty('commentbylocation');
+
+        $validator
             ->boolean('active')
             ->requirePresence('active', 'create')
             ->notEmpty('active');

@@ -38,3 +38,5 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
+
+/webroot/files/*

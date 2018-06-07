@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Routing\Router;
+use Cake\I18n\Time;
+use Cake\Filesystem\Folder;
+use Cake\Filesystem\File;
 
 /**
  * Cargos Controller
@@ -30,7 +33,8 @@ class CargosController extends AppController
         $paidAccountIds = [];
 
         foreach ($this->paidAccounts as $account) {
-            $orAccounts = array_merge($orAccounts, ['account_id' => $account['id']]);
+            array_push($orAccounts, ['account_id' => $account['id']]);
+            //$orAccounts = array_merge($orAccounts, ['account_id' => $account['id']]);
             array_push($paidAccountIds, $account['id']);
         }
         $this->orAccounts = $orAccounts;
@@ -40,18 +44,44 @@ class CargosController extends AppController
         $this->loadComponent('RequestHandler');
     }
 
+    public function isAuthorized($user) {
+        $action = $this->request->getParam('action');
+
+        // All actions require an id
+        $id = $this->request->getParam('pass.0');
+        if (!$id) {
+            return false;
+        }
+
+        // Check that the cargo belongs to the current user.
+        $cargo = $this->Cargos->findById($id)->first();
+
+        if (in_array($cargo->account_id, $this->paidAccountIds)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function queue($id = null) {
         $this->set('user', $this->user);
 
         $orAccounts = $this->orAccounts;
-
+        // If id specified
         if ($id > 0 && in_array($id, $this->paidAccountIdss)) $orAccounts = ['account_id' => $id];
 
-        $cargos = $this->Cargos->find()
-                       ->where(['OR' => $orAccounts, 'uploaded' => false, 'active' => 1])
-                       ->all();
+        if (count($orAccounts) > 0) {
+            $cargos = $this->Cargos->find()
+                           ->where(['uploaded' => false, 'active' => 1, 'OR' => $orAccounts])
+                           ->order(['schedule' => 'ASC'])
+                           ->contain(['reaps'])
+                           ->all();
+        } else {
+            $cargos = [];
+        }
 
-        $this->set(compact('cargos'));
+        $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
+        $this->set(compact('cargos', 'imagePath'));
     }
 
     public function upload() {
@@ -71,20 +101,18 @@ class CargosController extends AppController
         $result = $this->JqueryFileUpload->upload($options);
         $this->response->body(json_encode($result));
         return $this->response;
-        //$this->set(compact('result'));
-        //$this->set('_serialize', ['result']);
-        //print_r($result);
-        // $result['files'][0]['error'] = Filetype not allowed
-        // $
-        // result['files'][0] = [
-        // ->name = 'name.pdf',
-        // ->size = 48247
-        // ->type = 'application/pdf'
-        // ->error => 'Filetype not allowed'
-        // ]
-        // ->type = 'image/jpeg'
-        // ->url = '/files/images/upload/x.jpg' this is url encoded
-        // ->thumbnailUrl = '/files/images/upload/thumbnail/x.jpg'
+    }
+
+    private function rename($filename, $id) {
+        $file = new File(WWW_ROOT . 'files' . DS . 'images' . DS . 'upload' . DS . $filename, false, 0755);
+        $file->copy(WWW_ROOT . 'files' . DS . 'images' . DS . 'upload' . DS . $id . '.' . $file->ext(), true);
+        $file->delete();
+        $file->close();
+
+        $thumbnail = new File(WWW_ROOT . 'files' . DS . 'images' . DS . 'upload' . DS . 'thumbnail' . DS . $filename, false, 0755);
+        $thumbnail->copy(WWW_ROOT . 'files' . DS . 'images' . DS . 'upload' . DS . 'thumbnail' . DS . $id . '.' . $thumbnail->ext(), true);
+        $thumbnail->delete();
+        $thumbnail->close();
     }
 
     /**
@@ -92,14 +120,25 @@ class CargosController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($id = null)
     {
-        $this->paginate = [
-            'contain' => ['Accounts']
-        ];
-        $cargos = $this->paginate($this->Cargos);
+        $orAccounts = $this->orAccounts;
+        // If id specified
+        if ($id > 0 && in_array($id, $this->paidAccountIdss)) $orAccounts = ['account_id' => $id];
 
-        $this->set(compact('cargos'));
+        if (count($orAccounts) > 0) {
+            $cargos = $this->Cargos->find()
+                           ->where(['uploaded' => true, 'active' => 1, 'OR' => $orAccounts])
+                           ->order(['schedule' => 'DESC'])
+                           ->contain(['reaps'])
+                           ->all();
+        } else {
+            $cargos = [];
+        }
+
+        $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
+        $this->set(compact('cargos', 'imagePath'));
+        $this->set('user', $this->user);
     }
 
     /**
@@ -111,11 +150,18 @@ class CargosController extends AppController
      */
     public function view($id = null)
     {
+        if (!$this->isAuthorized($this->user)) {
+            $this->redirect(['action' => 'queue']);
+        }
+
         $cargo = $this->Cargos->get($id, [
-            'contain' => ['Accounts', 'Reaps']
+            'contain' => ['Reaps', 'Accounts']
         ]);
 
-        $this->set('cargo', $cargo);
+        $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
+
+        $this->set('user', $this->user);
+        $this->set(compact('cargo', 'imagePath'));
     }
 
     /**
@@ -127,28 +173,59 @@ class CargosController extends AppController
     {
         $cargo = $this->Cargos->newEntity();
         if ($this->request->is('post')) {
-            print_r($this->request->getData());
-            /*$cargo = $this->Cargos->patchEntity($cargo, $this->request->getData());
-            if ($this->Cargos->save($cargo)) {
-                $this->Flash->success(__('The cargo has been saved.'));
+            $data = $this->request->getData();
+            $data['reaps'] = explode(',', $data['reaps']);
+            $data['typeid'] = 1;// Photo
+            $data['uploaded'] = false;
+            $data['active'] = true;
 
-                return $this->redirect(['action' => 'index']);
+            if (count($data['reaps']) < 1) $this->Flash->error(__('Pilih minimal 1 file.'));
+            if (count($data['reaps']) > 1) $data['typeid'] = 3;// Carousel
+            if(!empty($data['schedule'])) {
+                $data['schedule'] = Time::createFromFormat('Y-m-d H:i:s', $data['schedule'], 'Asia/Jakarta')->i18nFormat('yyyy-MM-dd HH:mm:ss');
             }
-            $this->Flash->error(__('The cargo could not be saved. Please, try again.'));*/
+
+            $cargo = $this->Cargos->patchEntity($cargo, $data);
+            if ($this->Cargos->save($cargo)) {
+                // Save to reaps table
+                $cargo_id = $cargo->id;
+                $sequence = 0;
+                foreach ($data['reaps'] as $r) {
+                    $dataReap = [
+                        'cargo_id' => $cargo->id,
+                        'typeid' => 1,
+                        'extension' => pathinfo($r, PATHINFO_EXTENSION),
+                        'sequence' => $sequence,
+                        'active' => true
+                    ];
+                    $reap = $this->Cargos->Reaps->newEntity();
+                    $reap = $this->Cargos->Reaps->patchEntity($reap, $dataReap);
+                    if ($this->Cargos->Reaps->save($reap)) $this->rename($r, $reap->id);
+                    $sequence++;
+                }
+                $this->Flash->success(__('Konten berhasil ditambahkan.'));
+
+                return $this->redirect(['action' => 'queue']);
+            }
+            $this->Flash->error(__('Ups, terjadi kesalahan. Silahkan mengulangi.'));
         }
         $orAccounts = [];
-        foreach ($this->paidAccountIds as $id) $orAccounts = array_merge($orAccounts, ['id' => $id]);
+        foreach ($this->paidAccountIds as $id) array_push($orAccounts, ['id' => $id]);
 
-        $accounts = $this->Cargos->Accounts->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'username'
-        ])
-                         ->where(['OR' => $orAccounts])
-                         ->toArray();
+        if (count($orAccounts) > 0) {
+            $accounts = $this->Cargos->Accounts->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'username'
+            ])
+                             ->where(['OR' => $orAccounts])
+                             ->order(['username' => 'ASC'])
+                             ->toArray();
 
-        $this->set(compact('cargo', 'accounts'));
-        $this->set('user', $this->user);
-        //$this->set('accounts', $this->paidAccounts);
+            $this->set(compact('cargo', 'accounts'));
+            $this->set('user', $this->user);
+        } else {
+            $this->redirect(['action' => 'queue']);
+        }
     }
 
     /**
@@ -160,20 +237,45 @@ class CargosController extends AppController
      */
     public function edit($id = null)
     {
+        if (!$this->isAuthorized($this->user)) {
+            $this->redirect(['action' => 'queue']);
+        }
+
         $cargo = $this->Cargos->get($id, [
-            'contain' => []
+            'contain' => ['Reaps', 'Accounts']
         ]);
+
+        $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
+
+        $this->set('user', $this->user);
+        $this->set(compact('cargo', 'imagePath'));
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $cargo = $this->Cargos->patchEntity($cargo, $this->request->getData());
             if ($this->Cargos->save($cargo)) {
-                $this->Flash->success(__('The cargo has been saved.'));
+                $this->Flash->success(__('Konten berhasil diubah.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'queue']);
             }
-            $this->Flash->error(__('The cargo could not be saved. Please, try again.'));
+            $this->Flash->error(__('Ups, terjadi kesalahan. Silahkan mengulangi.'));
         }
-        $accounts = $this->Cargos->Accounts->find('list', ['limit' => 200]);
-        $this->set(compact('cargo', 'accounts'));
+        $orAccounts = [];
+        foreach ($this->paidAccountIds as $id) array_push($orAccounts, ['id' => $id]);
+
+        if (count($orAccounts) > 0) {
+            $accounts = $this->Cargos->Accounts->find('list', [
+                'keyField' => 'id',
+                'valueField' => 'username'
+            ])
+                             ->where(['OR' => $orAccounts])
+                             ->order(['username' => 'ASC'])
+                             ->toArray();
+
+            $this->set('user', $this->user);
+            $this->set(compact('cargo', 'imagePath', 'accounts'));
+        } else {
+            $this->redirect(['action' => 'queue']);
+        }
     }
 
     /**
@@ -185,14 +287,28 @@ class CargosController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $cargo = $this->Cargos->get($id);
-        if ($this->Cargos->delete($cargo)) {
-            $this->Flash->success(__('The cargo has been deleted.'));
-        } else {
-            $this->Flash->error(__('The cargo could not be deleted. Please, try again.'));
+        if (!$this->isAuthorized($this->user)) {
+            $this->redirect(['action' => 'queue']);
         }
 
-        return $this->redirect(['action' => 'index']);
+        $cargo = $this->Cargos->get($id, [
+            'contain' => ['Reaps']
+        ]);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = ['active' => false];
+            $cargo = $this->Cargos->patchEntity($cargo, $data);
+            if ($this->Cargos->save($cargo)) {
+                $this->Flash->success(__('Berhasil menghapus konten.'));
+            } else {
+                $this->Flash->success(__('Ups! Gagal menghapus konten, silahkan mengulangi.'));
+            }
+            return $this->redirect(['action' => 'queue']);
+        }
+
+        $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
+
+        $this->set('user', $this->user);
+        $this->set(compact('cargo', 'imagePath'));
     }
 }

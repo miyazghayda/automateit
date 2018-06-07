@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\I18n\Time;
+use Cake\Filesystem\Folder;
+use Cake\Filesystem\File;
 
 /**
  * Accounts Controller
@@ -70,8 +72,15 @@ class AccountsController extends AppController
             'contain' => ['Preferences']
         ]);
 
+        // Check if profile picture is exists
+        $profilepicture = new File(WWW_ROOT . 'files' . DS . 'images' . DS . 'profilepicture' . DS . $id . '.jpg', false, 0644);
+        $pp = false;
+        if ($profilepicture->exists()) $pp = true;
+        $profilepicture->close();
+
         $this->set('user', $this->user);
-        $this->set('account', $account);
+        $this->set(compact('account', 'pp'));
+        //$this->set('account', $account);
     }
 
     /**

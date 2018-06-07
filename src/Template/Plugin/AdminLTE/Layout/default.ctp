@@ -111,7 +111,7 @@
             a.parent().addClass('active').parents('.treeview').addClass('active');
         }
 
-        $("#lastLogin").text("Terdaftar sejak " + moment().format("dddd, DD MMMM YYYY"));
+        $("#lastLogin").text("Terdaftar sejak " + moment($("#lastLogin").text(), 'YYYY-MM-DD').format("dddd, DD MMMM YYYY"));
     });
 </script>
 </body>

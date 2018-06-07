@@ -48,7 +48,7 @@ class UsersController extends AppController
                       ->where(['id' => $this->Auth->user('id')])
                       ->execute();
 
-                return $this->redirect($this->Auth->redirectUrl(['controller' => 'users', 'action' => 'index']));
+                return $this->redirect($this->Auth->redirectUrl(['controller' => 'Documentation', 'action' => 'wellcome']));
             }
             $this->Flash->error('Username dan Password Keliru.');
         }

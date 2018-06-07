@@ -24,8 +24,8 @@ if (file_exists($file)) {
             </span>
         </a>
         <ul class="treeview-menu">
-            <li><a href="<?php echo $this->Url->build('/cargos/queue'); ?>"><i class="fa fa-hourglass-2"></i> Konten akan diPost</a></li>
-            <li><a href="<?php echo $this->Url->build('/cargos/index'); ?>"><i class="fa fa-image"></i> Konten telah diPost</a></li>
+            <li><a href="<?php echo $this->Url->build('/cargos/queue'); ?>"><i class="fa fa-hourglass-2"></i> Konten akan di-Post</a></li>
+            <li><a href="<?php echo $this->Url->build('/cargos/index'); ?>"><i class="fa fa-image"></i> Konten telah di-Post</a></li>
         </ul>
     </li>
     <li class="treeview">

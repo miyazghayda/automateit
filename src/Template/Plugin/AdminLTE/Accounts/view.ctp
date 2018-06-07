@@ -15,12 +15,20 @@
             <div class="box">
                 <div class="box-header with-border">
                     <i class="fa fa-mobile"></i> <h3 class="box-title">Profil</h3>
+                    <a href="/accounts/edit/<?php echo $account['id']; ?>" class="pull-right">
+                        <i class="fa fa-pencil"> </i><span>Ubah</span>
+                    </a>
                 </div><!--/.box-header -->
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-4 col-md-offset-1">
                             <div class="box box-widget widget-user-2">
                                 <div class="widget-user-header bg-blue">
+<?php if($pp) { ?>
+                                    <div class="widget-user-image">
+                                    <img class="img-circle" src="/files/images/profilepicture/<?php echo $account['id'] . '.jpg'; ?>">
+                                    </div><!--/.widget-user-image -->
+<?php } ?>
                                     <h3 class="widget-user-username"><?php echo $account['fullname']; ?></h3>
                                     <h5 class="widget-user-desc"><?php echo $account['description']; ?></h5>
                                 </div><!--/.widget-user-header -->
@@ -43,11 +51,6 @@
                                         <li><a href="#">Maksimum Post per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxpostperday']; ?></span></a></li>
                                         <li><a href="#">Maksimum Like/Comment per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxlikeperday']; ?></span></a></li>
                                         <li><a href="#">Maksimum Follow per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxfollowperday']; ?></span></a></li>
-                                        <li>
-                                            <a href="/accounts/edit/<?php echo $account['id']; ?>" class="pull-right">
-                                                <i class="fa fa-pencil"> </i><span>Ubah</span>
-                                            </a>
-                                        </li>
                                     </ul><!--/.nav -->
                                 </div><!--/.box-footer -->
                             </div><!--/.box-widget -->

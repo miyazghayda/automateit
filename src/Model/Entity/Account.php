@@ -32,6 +32,12 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Proxy $proxy
  * @property \App\Model\Entity\Cargo[] $cargos
  * @property \App\Model\Entity\Preference[] $preferences
+ * @property \App\Model\Entity\Followinglist[] $followinglists
+ * @property \App\Model\Entity\Commentinglist[] $commentinglists
+ * @property \App\Model\Entity\Likinglist[] $likinglists
+ * @property \App\Model\Entity\Accountlist[] $accountlists
+ * @property \App\Model\Entity\Hashtaglist[] $hashtaglists
+ * @property \App\Model\Entity\Locationlist[] $locationlists
  */
 class Account extends Entity
 {

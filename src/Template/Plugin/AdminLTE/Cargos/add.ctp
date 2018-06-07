@@ -1,3 +1,15 @@
+<style>
+.bar {
+    height: 18px;
+    background: green;
+}
+</style>
+
+<?php
+echo $this->Html->css('bootstrap-datetimepicker.min');
+echo $this->JqueryFileUpload->loadCss();
+?>
+
 <section class="content-header">
     <h1>Tambah Konten</h1>
     <ol class="breadcrumb">
@@ -13,7 +25,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header with-border">
                     <?php echo $this->Html->link('Daftar Konten akan di-Post', ['controller' => 'Cargos', 'action' => 'queue']); ?>
                 </div><!--/.box-header -->
                 <div class="box-body">
@@ -47,7 +59,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                                <?php echo $this->Form->text('scheduleShow', ['class' => 'form-control', 'id' => 'scheduleShow', 'required' => 'false', 'placeholder' => 'Jadwal upload, dapat dikosongkan']); ?>
+                                <?php echo $this->Form->text('scheduleShow', ['class' => 'form-control', 'id' => 'scheduleShow', 'required' => 'false', 'placeholder' => 'Jadwal upload', 'required' => 'required', 'data-required-error' => 'Harus diisi']); ?>
                                 <?php echo $this->Form->hidden('schedule', ['id' => 'schedule']);?>
                                 <?php echo $this->Form->hidden('reaps', ['id' => 'reaps', 'required' => 'true', 'data-required-error' => 'Pilih Minimal Satu File']); ?>
                             </div><!--/.input-group -->
@@ -62,7 +74,7 @@
                         <div class="form-group">
 <?php echo $this->Form->submit('Tambah', ['class' => 'btn btn-primary btn-block']); ?>
                         </div><!--/. form-group -->
-                    </div><!--/.form-inline -->
+                    </div><!--/.dt-bootstrap -->
                 </div><!--/.box-body -->
             </div><!--/.box -->
         </div><!--/.col-xs-12 -->
@@ -87,18 +99,9 @@
 </div><!--/.modalWarning -->
 <?php
 echo $this->Html->script('bootstrap-datetimepicker.min');
-echo $this->Html->css('bootstrap-datetimepicker.min');
 
-echo $this->JqueryFileUpload->loadCss();
 echo $this->JqueryFileUpload->loadScripts();
 ?>
-<style>
-.bar {
-    height: 18px;
-    background: green;
-}
-</style>
-
 <script>
 $(function() {
 let schedule = $('#scheduleShow').datetimepicker({
@@ -141,7 +144,7 @@ $('#fileupload').fileupload({
             progress + '%'
         );
     },
-    options: {
+    option: {
         acceptFileTypes: /(\.|\/)(jpe?g|png)$/i,
         maxFileSize: 20000000,
         maxNumberOfFiles: 2

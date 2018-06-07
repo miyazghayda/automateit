@@ -13,7 +13,12 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ProxiesTable|\Cake\ORM\Association\BelongsTo $Proxies
  * @property \App\Model\Table\CargosTable|\Cake\ORM\Association\HasMany $Cargos
  * @property \App\Model\Table\PreferencesTable|\Cake\ORM\Association\HasMany $Preferences
- *
+ * @property \App\Model\Table\FollowinglistsTable|\Cake\ORM\Association\HasMany $Followinglists
+ * @property \App\Model\Table\CommentinglistsTable|\Cake\ORM\Association\HasMany $Commentinglists
+ * @property \App\Model\Table\LikinglistsTable|\Cake\ORM\Association\HasMany $Likinglists
+ * @property \App\Model\Table\AccountlistsTable|\Cake\ORM\Association\HasMany $Accountlists
+ * @property \App\Model\Table\HashtaglistsTable|\Cake\ORM\Association\HasMany $Hashtaglists
+ * @property \App\Model\Table\LocationlistsTable|\Cake\ORM\Association\HasMany $Locationlists
  * @method \App\Model\Entity\Account get($primaryKey, $options = [])
  * @method \App\Model\Entity\Account newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Account[] newEntities(array $data, array $options = [])
@@ -56,6 +61,24 @@ class AccountsTable extends Table
             'foreignKey' => 'account_id'
         ]);
         $this->hasMany('Preferences', [
+            'foreignKey' => 'account_id'
+        ]);
+        $this->hasMany('Accountlists', [
+            'foreignKey' => 'account_id'
+        ]);
+        $this->hasMany('Commentinglists', [
+            'foreignKey' => 'account_id'
+        ]);
+        $this->hasMany('Followinglists', [
+            'foreignKey' => 'account_id'
+        ]);
+        $this->hasMany('Hashtaglists', [
+            'foreignKey' => 'account_id'
+        ]);
+        $this->hasMany('Likinglists', [
+            'foreignKey' => 'account_id'
+        ]);
+        $this->hasMany('Locationlists', [
             'foreignKey' => 'account_id'
         ]);
     }
