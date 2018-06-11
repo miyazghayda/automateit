@@ -26,6 +26,16 @@ ul li img {
             <div class="box">
                 <div class="box-header with-border">
                     <?php echo $this->Html->link('Tambah Konten', ['controller' => 'Cargos', 'action' => 'add']); ?>
+                    <div class="col-xs-4 pull-right">
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                                <?php echo $this->Form->select('account_id', $accounts, ['class' => 'form-control', 'id' => 'accountId', 'default' => 0]); ?>
+                            </div><!--/.input-group -->
+                        </div><!--/. form-group -->
+
+                    </div><!--/.col-xs-4 -->
                 </div><!--/.box-header -->
                 <div class="box-body">
                     <?php if (count($cargos) < 1) { ?>
@@ -45,7 +55,6 @@ ul li img {
         </div><!--/.col-xs-12 -->
     </div><!--/.row -->
 </section>
-
 <?php echo $this->Html->script('jquery.bsPhotoGallery.alreadyUpload'); ?>
 <script>
 $(function() {
@@ -57,6 +66,11 @@ $(function() {
     $('li.bspHasModal').on('click', function(){
         let liId = $(this).attr('id');
         $('#bsp-view').attr('href', '/cargos/view/' + liId);
+    });
+
+    $('#accountId').on('change', function() {
+        console.log($(this).val());
+        window.location.replace('/cargos/index/' + $(this).val());
     });
 });
 </script>

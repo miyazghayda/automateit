@@ -1,6 +1,13 @@
+<?php echo $this->Html->css('bootstrap-tagsinput'); ?>
 <style>
 label {
     font-weight: 400;
+}
+.bootstrap-tagsinput {
+    width: 100%;
+}
+.bootstrap-tagsinput input {
+    width: 100%;
 }
 </style>
 <section class="content-header">
@@ -51,6 +58,19 @@ label {
                         </div><!--/. form-group -->
 
                         <div class="form-group">
+                            <label>Follow Berdasarkan Hashtag</label>
+                            <br/>
+                            <?php echo $this->Form->checkbox('followbyhashtagcheckbox', ['hiddenField' => false, 'id' => 'followbyhashtagcheckbox']); ?>
+                            <?php echo $this->form->hidden('followbyhashtag', ['id' => 'followbyhashtag']); ?>
+                        </div><!--/. form-group -->
+
+                        <div class="form-group hashtag-follow">
+                            <label>Hashtag di-Follow, tanpa <strong>#</strong>, pisahkan dengan koma.</label>
+                            <?php echo $this->Form->text('hashtagtofollow', ['value' => $hashtagWhiteString, 'placeholder' => 'Akun IG yang mengirim foto/video dengan hashtag ini akan di-follow', 'id' => 'hashtagtofollow', 'class' => 'form-control', 'required' => 'false', 'data-required-error' => 'Harus diisi', 'data-role' => 'tagsinput']); ?>
+                            <span class="help-block with-errors"></span>
+                        </div><!--/. form-group -->
+
+                        <div class="form-group">
 <?php echo $this->Form->submit('Ubah', ['class' => 'btn btn-primary btn-block']); ?>
                         </div><!--/. form-group -->
                     </div><!--/.form-inline -->
@@ -59,3 +79,47 @@ label {
         </div><!--/.col-xs-12 -->
     </div><!--/.row -->
 </section>
+<?php echo $this->Html->script('bootstrap-tagsinput.min'); ?>
+<?php echo $this->Html->script('bootstrap-checkbox.min'); ?>
+<script>
+$(function() {
+    $('#followbyhashtagcheckbox').checkboxpicker({
+        offLabel: 'Tidak',
+        onLabel: 'Ya'
+}).on('change', function() {
+    if($(this).prop('checked')) {
+        $('#followbyhashtag').val(1);
+        $('.hashtag-follow').show(1000);
+        $('#hashtagtofollow').attr('required', 'true');
+    } else {
+        $('#followbyhashtag').val(0);
+        $('.hashtag-follow').hide(1000);
+        $('#hashtagtofollow').removeAttr('required');
+    }
+});
+
+<?php if ($account['preferences'][0]['followbyhashtag']) { ?>
+$('#followbyhashtag').val(1);
+$('#followbyhashtagcheckbox').prop('checked', true);
+$('#hashtagtofollow').attr('required', 'true');
+//$('#addForm').validator('update');
+<?php } else {?>
+$('#followbyhashtag').val(0);
+$('#followbyhashtagcheckbox').prop('checked', false);
+$('.hashtag-follow').hide();
+$('#hashtagtofollow').removeAttr('required');
+<?php } ?>
+
+$('#hashtagtofollow').on('change', function(){
+    console.log($(this).val());
+});
+
+// To remove comma after label
+$('#hashtagtofollow').on('itemAdded', function(event) {
+    let $field = $(this).siblings('.bootstrap-tagsinput').find('input');
+    setTimeout(function() {
+        $field.val('');
+    });
+});
+});
+</script>

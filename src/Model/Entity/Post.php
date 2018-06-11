@@ -8,7 +8,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $pk
+ * @property int $typeid
  * @property string $sourceid
+ * @property string $caption
  * @property int $location_id
  * @property int $member_id
  * @property int $likes
@@ -19,6 +21,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Location $location
  * @property \App\Model\Entity\Member $member
  * @property \App\Model\Entity\Likinglist[] $likinglists
+ * @property \App\Model\Entity\Wad[] $wads
  */
 class Post extends Entity
 {
@@ -35,14 +38,17 @@ class Post extends Entity
     protected $_accessible = [
         'pk' => true,
         'sourceid' => true,
+        'caption' => true,
         'location_id' => true,
         'member_id' => true,
         'likes' => true,
+        'typeid' => true,
         'comments' => true,
         'takenat' => true,
         'active' => true,
         'location' => true,
         'member' => true,
-        'likinglists' => true
+        'likinglists' => true,
+        'wads' => true
     ];
 }

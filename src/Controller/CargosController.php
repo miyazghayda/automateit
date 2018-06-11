@@ -79,9 +79,17 @@ class CargosController extends AppController
         } else {
             $cargos = [];
         }
+        $accounts = $this->Cargos->Accounts->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'username'
+        ])
+                         ->where(['user_id' => $this->user['id'], 'statusid' => 5, 'active' => 1])
+                         ->order(['username' => 'ASC'])
+                         ->toArray();
+        $accounts[0] = 'Semua';
 
         $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
-        $this->set(compact('cargos', 'imagePath'));
+        $this->set(compact('cargos', 'imagePath', 'accounts'));
     }
 
     public function upload() {
@@ -124,7 +132,7 @@ class CargosController extends AppController
     {
         $orAccounts = $this->orAccounts;
         // If id specified
-        if ($id > 0 && in_array($id, $this->paidAccountIdss)) $orAccounts = ['account_id' => $id];
+        if ($id > 0 && in_array($id, $this->paidAccountIds)) $orAccounts = ['account_id' => $id];
 
         if (count($orAccounts) > 0) {
             $cargos = $this->Cargos->find()
@@ -135,9 +143,17 @@ class CargosController extends AppController
         } else {
             $cargos = [];
         }
+        $accounts = $this->Cargos->Accounts->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'username'
+        ])
+                         ->where(['user_id' => $this->user['id'], 'active' => 1])
+                         ->order(['username' => 'ASC'])
+                         ->toArray();
+        $accounts[0] = 'Semua';
 
         $imagePath = DS . 'files' . DS . 'images' . DS . 'upload' . DS;
-        $this->set(compact('cargos', 'imagePath'));
+        $this->set(compact('cargos', 'imagePath', 'accounts'));
         $this->set('user', $this->user);
     }
 

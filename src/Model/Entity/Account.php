@@ -17,8 +17,9 @@ use Cake\ORM\Entity;
  * @property string $description
  * @property int $followers
  * @property int $followings
- * @property int $posts
+ * @property int $contents
  * @property bool $closed
+ * @property bool $profpicurlfixed
  * @property int $statusid
  * @property string $note
  * @property \Cake\I18n\Date $started
@@ -62,7 +63,7 @@ class Account extends Entity
         'description' => true,
         'followers' => true,
         'followings' => true,
-        'posts' => true,
+        'contents' => true,
         'closed' => true,
         'testlogin' => true,
         'note' => true,
@@ -72,6 +73,7 @@ class Account extends Entity
         'created' => true,
         'modified' => true,
         'active' => true,
+        'profpicurlfixed' => true,
         'user' => true,
         'proxy' => true,
         'cargos' => true,

@@ -1,5 +1,5 @@
 <section class="content-header">
-    <h1>Hapus Konten</h1>
+    <h1>Lihat Konten</h1>
     <ol class="breadcrumb">
         <li>
             Konten

@@ -99,9 +99,9 @@ class FellowsTable extends Table
             ->notEmpty('followings');
 
         $validator
-            ->integer('posts')
-            ->requirePresence('posts', 'create')
-            ->notEmpty('posts');
+            ->integer('contents')
+            ->requirePresence('contents', 'create')
+            ->notEmpty('contents');
 
         $validator
             ->boolean('closed')

@@ -98,8 +98,7 @@ class FollowinglistsTable extends Table
 
         $validator
             ->scalar('note')
-            ->requirePresence('note', 'create')
-            ->notEmpty('note');
+            ->allowEmpty('note');
 
         $validator
             ->boolean('active')

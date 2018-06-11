@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string $profpicurl
  * @property int $followers
  * @property int $followings
- * @property int $posts
+ * @property int $contents
  * @property bool $closed
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
@@ -44,7 +44,7 @@ class Fellow extends Entity
         'profpicurl' => true,
         'followers' => true,
         'followings' => true,
-        'posts' => true,
+        'contents' => true,
         'closed' => true,
         'created' => true,
         'modified' => true,

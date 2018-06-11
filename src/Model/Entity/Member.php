@@ -14,7 +14,9 @@ use Cake\ORM\Entity;
  * @property string $profpicurl
  * @property int $followers
  * @property int $followings
+ * @property int $contents
  * @property bool $closed
+ * @property bool $profpicurlfixed
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property bool $active
@@ -46,11 +48,12 @@ class Member extends Entity
         'profpicurl' => true,
         'followers' => true,
         'followings' => true,
-        'posts' => true,
+        'contents' => true,
         'closed' => true,
         'created' => true,
         'modified' => true,
         'active' => true,
+        'profpicurlfixed' => true,
         'followinglists' => true,
         'likinglists' => true,
         'vassals' => true

@@ -34,7 +34,7 @@
                                 </div><!--/.widget-user-header -->
                                 <div class="box-footer no-padding">
                                     <ul class="nav nav-stacked">
-                                        <li><a href="#">Posts<span class="pull-right badge bg-aqua"><?php echo $account['posts']; ?></span></a></li>
+                                        <li><a href="#">Posts<span class="pull-right badge bg-aqua"><?php echo $account['contents']; ?></span></a></li>
                                         <li><a href="#">Followers<span class="pull-right badge bg-aqua"><?php echo $account['followers']; ?></span></a></li>
                                         <li><a href="#">Followings<span class="pull-right badge bg-aqua"><?php echo $account['followings']; ?></span></a></li>
                                     </ul><!--/.nav -->
@@ -48,9 +48,19 @@
                                 </div><!--/.widget-user-header -->
                                 <div class="box-footer no-padding">
                                     <ul class="nav nav-stacked">
-                                        <li><a href="#">Maksimum Post per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxpostperday']; ?></span></a></li>
                                         <li><a href="#">Maksimum Like/Comment per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxlikeperday']; ?></span></a></li>
                                         <li><a href="#">Maksimum Follow per Hari<span class="pull-right badge bg-aqua"><?php echo $account['preferences'][0]['maxfollowperday']; ?></span></a></li>
+                                        <li><a href="#">Follow Berdasarkan Hashtag<span class="pull-right badge bg-aqua"><?php echo ($account['preferences'][0]['followbyhashtag']) ? 'Ya' : 'Tidak'; ?></span></a></li>
+<?php if ($account['preferences'][0]['followbyhashtag']) { ?>
+<li><a href="#" class="pull-right">
+<?php
+for ($i=0;$i<count($hashtaglists);$i++) {
+    echo $hashtaglists[$i]['caption'];
+    if ($i<(count($hashtaglists)-1)) echo ', ';
+}
+?>
+</a></li>
+<?php } ?>
                                     </ul><!--/.nav -->
                                 </div><!--/.box-footer -->
                             </div><!--/.box-widget -->

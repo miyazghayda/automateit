@@ -64,6 +64,11 @@ class PreferencesTable extends Table
             ->notEmpty('maxlikeperday');
 
         $validator
+            ->integer('maxcommentperday')
+            ->requirePresence('maxcommentperday', 'create')
+            ->notEmpty('maxcommentperday');
+
+        $validator
             ->integer('maxfollowperday')
             ->requirePresence('maxfollowperday', 'create')
             ->notEmpty('maxfollowperday');
@@ -72,6 +77,30 @@ class PreferencesTable extends Table
             ->integer('maxpostperday')
             ->requirePresence('maxpostperday', 'create')
             ->notEmpty('maxpostperday');
+
+        $validator
+            ->integer('hashtagtofollowtoday')
+            ->allowEmpty('hashtagtofollowtoday');
+
+        $validator
+            ->boolean('gethashtagtofollowtoday')
+            ->allowEmpty('gethashtagtofollowtoday');
+
+        $validator
+            ->integer('followtoday')
+            ->allowEmpty('followtoday');
+
+        $validator
+            ->integer('liketoday')
+            ->allowEmpty('liketoday');
+
+        $validator
+            ->integer('commenttoday')
+            ->allowEmpty('commenttoday');
+
+        $validator
+            ->integer('posttoday')
+            ->allowEmpty('posttoday');
 
         $validator
             ->boolean('followidolfollower')

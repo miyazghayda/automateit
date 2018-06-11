@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\LocationsTable|\Cake\ORM\Association\BelongsTo $Locations
  * @property \App\Model\Table\MembersTable|\Cake\ORM\Association\BelongsTo $Members
  * @property \App\Model\Table\LikinglistsTable|\Cake\ORM\Association\HasMany $Likinglists
+ * @property \App\Model\Table\WadsTable|\Cake\ORM\Association\HasMany $Wads
  *
  * @method \App\Model\Entity\Post get($primaryKey, $options = [])
  * @method \App\Model\Entity\Post newEntity($data = null, array $options = [])
@@ -50,6 +51,9 @@ class PostsTable extends Table
         $this->hasMany('Likinglists', [
             'foreignKey' => 'post_id'
         ]);
+        $this->hasMany('Wads', [
+            'foreignKey' => 'post_id'
+        ]);
     }
 
     /**
@@ -74,6 +78,10 @@ class PostsTable extends Table
             ->notEmpty('sourceid');
 
         $validator
+            ->scalar('caption')
+            ->allowEmpty('caption');
+
+        $validator
             ->integer('likes')
             ->requirePresence('likes', 'create')
             ->notEmpty('likes');
@@ -82,6 +90,11 @@ class PostsTable extends Table
             ->integer('comments')
             ->requirePresence('comments', 'create')
             ->notEmpty('comments');
+
+        $validator
+            ->integer('typeid')
+            ->requirePresence('typeid', 'create')
+            ->notEmpty('typeid');
 
         $validator
             ->integer('takenat')

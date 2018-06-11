@@ -58,6 +58,10 @@ class LocationsTable extends Table
             ->notEmpty('pk');
 
         $validator
+            ->integer('fbplacesid')
+            ->allowEmpty('fbplacesid');
+
+        $validator
             ->decimal('lat')
             ->requirePresence('lat', 'create')
             ->notEmpty('lat');
@@ -69,8 +73,7 @@ class LocationsTable extends Table
 
         $validator
             ->scalar('address')
-            ->requirePresence('address', 'create')
-            ->notEmpty('address');
+            ->allowEmpty('address');
 
         $validator
             ->scalar('name')
@@ -80,8 +83,9 @@ class LocationsTable extends Table
         $validator
             ->scalar('shortname')
             ->maxLength('shortname', 255)
-            ->requirePresence('shortname', 'create')
-            ->notEmpty('shortname');
+            ->allowEmpty('shortname');
+            //->requirePresence('shortname', 'create')
+            //->notEmpty('shortname');
 
         $validator
             ->boolean('active')

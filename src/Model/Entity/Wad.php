@@ -4,21 +4,21 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Location Entity
+ * Wad Entity
  *
  * @property int $id
- * @property int $pk
- * @property int $fbplacesid
- * @property float $lat
- * @property float $lng
- * @property string $address
- * @property string $name
- * @property string $shortname
+ * @property int $post_id
+ * @property int $typeid
+ * @property int $sequence
+ * @property string $url
+ * @property int $width
+ * @property int $height
+ * @property bool $urlfixed
  * @property bool $active
  *
- * @property \App\Model\Entity\Post[] $posts
+ * @property \App\Model\Entity\Post $post
  */
-class Location extends Entity
+class Wad extends Entity
 {
 
     /**
@@ -31,14 +31,14 @@ class Location extends Entity
      * @var array
      */
     protected $_accessible = [
-        'pk' => true,
-        'fbplacesid' => true,
-        'lat' => true,
-        'lng' => true,
-        'address' => true,
-        'name' => true,
-        'shortname' => true,
+        'post_id' => true,
+        'typeid' => true,
+        'sequence' => true,
+        'url' => true,
+        'width' => true,
+        'height' => true,
         'active' => true,
-        'posts' => true
+        'urlfixed' => true,
+        'post' => true
     ];
 }

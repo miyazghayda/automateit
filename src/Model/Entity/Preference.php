@@ -9,8 +9,15 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $account_id
  * @property int $maxlikeperday
+ * @property int $maxcommentperday
  * @property int $maxfollowperday
  * @property int $maxpostperday
+ * @property int $followtoday
+ * @property int $liketoday
+ * @property int $commenttoday
+ * @property int $posttoday
+ * @property int $hashtagtofollowtoday
+ * @property bool $gethashtagtofollowtoday
  * @property bool $followidolfollower
  * @property bool $followbyhashtag
  * @property bool $followbylocation
@@ -42,6 +49,7 @@ class Preference extends Entity
         'account_id' => true,
         'maxlikeperday' => true,
         'maxfollowperday' => true,
+        'maxcommentperday' => true,
         'maxpostperday' => true,
         'created' => true,
         'modified' => true,
@@ -55,6 +63,12 @@ class Preference extends Entity
         'commentfeed' => true,
         'commentbyhashtag' => true,
         'commentbylocation' => true,
+        'hashtagtofollowtoday' => true,
+        'gethashtagtofollowtoday' => true,
+        'followtoday' => true,
+        'liketoday' => true,
+        'commenttoday' => true,
+        'posttoday' => true,
         'account' => true
     ];
 }

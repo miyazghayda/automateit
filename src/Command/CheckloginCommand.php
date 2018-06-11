@@ -77,10 +77,11 @@ class CheckloginCommand extends Command {
                                         'description' => $data->getUser()->getBiography(),
                                         'followers' => $data->getUser()->getFollowerCount(),
                                         'followings' => $data->getUser()->getFollowingCount(),
-                                        'posts' => $data->getUser()->getMediaCount(),
+                                        'contents' => $data->getUser()->getMediaCount(),
                                         'closed' => $data->getUser()->getIsPrivate(),
                                         'statusid' => 3,
-                                        'note' => 'Login berhasil, akun dapat digunakan'
+                                        'note' => 'Login berhasil, akun dapat digunakan',
+                                        'profpicurlfixed' => true
                                     ])
                                     ->where(['id' => $account->id])
                                     ->execute();
@@ -114,13 +115,15 @@ class CheckloginCommand extends Command {
         // Based on https://github.com/sounden/phinstagram/blob/master/phinstagram.php
         $phpinstagram_json_object = null;
 
-        define('TMP_DIR', TMP);
-        define('CACHE_FILE_NAME', $username . '.json');
-        define('LOCAL_CACHE_IN_SECONDS', 300);
+        //define('TMP_DIR', TMP);
+        //define('CACHE_FILE_NAME', $username . '.json');
+        //define('LOCAL_CACHE_IN_SECONDS', 300);
 
-        if(file_exists(TMP_DIR . DS . CACHE_FILE_NAME) && (filemtime(TMP_DIR . DS . CACHE_FILE_NAME) > (time() - LOCAL_CACHE_IN_SECONDS))) {
+        $cacheFileName = $username . '.json';
+        $localCacheInSeconds = 300;
+        if(file_exists(TMP . DS . $cacheFileName) && (filemtime(TMP . DS . $cacheFileName) > (time() - $localCacheInSeconds))) {
             // fetch from disk //
-            $phinstagram_json_object = json_decode(file_get_contents(TMP_DIR . DS . CACHE_FILE_NAME));
+            $phinstagram_json_object = json_decode(file_get_contents(TMP . DS . $cacheFileName));
         } else {
             // get a fresh download
             $ch = curl_init();
@@ -160,15 +163,15 @@ class CheckloginCommand extends Command {
             if($phinstagram_json_object == NULL)
             {
                 // return last working json string if it exists //
-                if (file_exists(TMP_DIR . DS . CACHE_FILE_NAME)) {
-                    $phinstagram_json_object = json_decode(file_get_contents(TMP_DIR . DS . CACHE_FILE_NAME));
+                if (file_exists(TMP . DS . $cacheFileName)) {
+                    $phinstagram_json_object = json_decode(file_get_contents(TMP . DS . $cacheFileName));
                 } else {
                     //oh nooo .. we didnt have a stored old json string on disk.. nor parsing instagram.com site succeeded!!! FAIL, DIE()!
                     $phinstagram_json_object = array("error" => json_last_error());
                 }
             } else {
                 // save to local cache if the new one works //
-                file_put_contents(TMP_DIR . DS . CACHE_FILE_NAME, $json_string);
+                file_put_contents(TMP . DS . $cacheFileName, $json_string);
             }
         }
 

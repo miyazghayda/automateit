@@ -100,7 +100,7 @@ class AccountsTable extends Table
 
         $validator
             ->scalar('profpicurl')
-            ->maxLength('profpicurl', 255)
+            ->maxLength('profpicurl', 1000)
             ->allowEmpty('profpicurl');
 
         $validator
@@ -135,9 +135,13 @@ class AccountsTable extends Table
             ->notEmpty('followings');
 
         $validator
-            ->integer('posts')
-            ->requirePresence('posts', 'create')
-            ->notEmpty('posts');
+            ->integer('contents')
+            ->requirePresence('contents', 'create')
+            ->notEmpty('contents');
+
+        $validator
+            ->boolean('profpicurlfixed')
+            ->allowEmpty('profpicurlfixed');
 
         $validator
             ->boolean('closed')

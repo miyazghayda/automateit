@@ -72,6 +72,11 @@ class AccountsController extends AppController
             'contain' => ['Preferences']
         ]);
 
+        $hashtaglists = $this->Accounts->Hashtaglists->find()
+                             ->where(['account_id' => $account['id'], 'active' => true, 'typeid' => 1, 'whitelist' => true])
+                             ->all()
+                             ->toArray();
+
         // Check if profile picture is exists
         $profilepicture = new File(WWW_ROOT . 'files' . DS . 'images' . DS . 'profilepicture' . DS . $id . '.jpg', false, 0644);
         $pp = false;
@@ -79,8 +84,7 @@ class AccountsController extends AppController
         $profilepicture->close();
 
         $this->set('user', $this->user);
-        $this->set(compact('account', 'pp'));
-        //$this->set('account', $account);
+        $this->set(compact('account', 'pp', 'hashtaglists'));
     }
 
     /**
@@ -103,14 +107,19 @@ class AccountsController extends AppController
                 'description' => null,
                 'followers' => 0,
                 'followings' => 0,
-                'posts' => 0,
+                'contents' => 0,
+                'followtoday' => 0,
+                'liketoday' => 0,
+                'posttoday' => 0,
+                'commenttoday' => 0,
                 'started' => Time::now()->i18nFormat('yyyy-MM-dd'),
                 'ended' => Time::now()->i18nFormat('yyyy-MM-dd'),
                 'paid' => 0,
                 'closed' => 0,
                 'statusid' => 1,
                 'note' => 'Belum diuji login',
-                'active' => 1
+                'profpicurlfixed' => false,
+                'active' => true
             ];
             $account = $this->Accounts->patchEntity($account, $data);
             if ($this->Accounts->save($account)) {
@@ -120,8 +129,24 @@ class AccountsController extends AppController
                 $dataPreference = [
                     'account_id' => $account->id,
                     'maxlikeperday' => 500,
+                    'maxcommentperday' => 500,
                     'maxfollowperday' => 300,
                     'maxpostperday' => 1,
+                    'followidolfollower' => 0,
+                    'followbylocation' => 0,
+                    'followbyhashtag' => 0,
+                    'likefeed' => 0,
+                    'likebylocation' => 0,
+                    'likebyhashtag' => 0,
+                    'commentfeed' => 0,
+                    'commentbyhashtag' => 0,
+                    'commentbylocation' => 0,
+                    'followtoday' => 0,
+                    'liketoday' => 0,
+                    'commenttoday' => 0,
+                    'posttoday' => 0,
+                    'hashtagtofollowtoday' => 0,
+                    'gethashtagtofollowtoday' => true,
                     'active' => true
                 ];
                 $preference = $this->Accounts->Preferences->patchEntity($preference, $dataPreference);
@@ -160,9 +185,36 @@ class AccountsController extends AppController
             // Update preferences table
             $preference = $this->Accounts->Preferences->query();
             $preference->update()
-                       ->set(['maxlikeperday' => $data['maxlikeperday'], 'maxfollowperday' => $data['maxfollowperday']])
-                       ->where(['account_id' => $account['id'], 'active' => true])
-                       ->execute();
+                       ->set([
+                       'maxlikeperday' => $data['maxlikeperday'],
+                       'maxfollowperday' => $data['maxfollowperday'],
+                       'followbyhashtag' => $data['followbyhashtag']
+                   ])
+                   ->where(['account_id' => $account['id'], 'active' => true])
+                   ->execute();
+
+            // If account choose to followbyhashtag
+            if ($data['followbyhashtag'] && !empty($data['hashtagtofollow'])) {
+                $hashtags = explode(',', $data['hashtagtofollow']);
+                foreach ($hashtags as $h) {
+                    $h = strtolower(trim(str_replace('#', '',$h)));
+
+                    $findHashtag = $this->Accounts->Hashtaglists->find()
+                                        ->where(['account_id' => $account['id'], 'active' => true, 'caption' => $h]);
+                    if ($findHashtag->count() == 0) {
+                        $d = [
+                            'account_id' => $account['id'],
+                            'typeid' => 1,
+                            'whitelist' => true,
+                            'caption' => $h,
+                            'active' => true
+                        ];
+                        $hashtaglist = $this->Accounts->Hashtaglists->newEntity();
+                        $hashtaglist = $this->Accounts->Hashtaglists->patchEntity($hashtaglist, $d);
+                        $this->Accounts->Hashtaglists->save($hashtaglist);
+                    }
+                }
+            }
 
             $message = 'Setup Akun berhasil diubah.';
             // Update accounts table
@@ -178,10 +230,16 @@ class AccountsController extends AppController
 
             $this->Flash->success(__($message));
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'view', $id]);
         }
+        $hashtagWhite = $this->Accounts->Hashtaglists->find()
+            ->where(['account_id' => $account['id'], 'active' => 1, 'typeid' => 1, 'whitelist' => 1])->all();
+
+        $hashtagWhiteString = '';
+        foreach ($hashtagWhite as $h) $hashtagWhiteString = $hashtagWhiteString . $h['caption'];
+
         $this->set('user', $this->user);
-        $this->set(compact('account'));
+        $this->set(compact('account', 'hashtagWhiteString', 'hashtagWhite'));
     }
 
     /**
